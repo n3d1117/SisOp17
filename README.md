@@ -1,4 +1,4 @@
-##Testo dell'esercizio
+# Testo dell'esercizio
 
 Si vuole simulare un sistema di web crawling, nel quale sono presenti N thread Crawler, dove ognuno preleva una URL da un oggetto UrlStore che contiene le Url che devono essere analizzate (attende se vuoto), effettua il download della pagina HTML (si simuli questa attività con una attesa), la salva in un oggetto DocStore, incrementa una variabile globale che indica il numero di download effettuati da tutti gli N Crawler e quindi preleva una nuova URL e procede. 
 
