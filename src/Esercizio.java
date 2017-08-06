@@ -8,10 +8,10 @@ public class Esercizio {
         // Prendo N e M da input
         Scanner s = new Scanner(System.in);
         do {
-            System.out.println("Inserisci N (>0) -->");
+            System.out.println("Inserisci N numero di Crawler (>0) -->");
             N = s.nextInt();
 
-            System.out.println("Inserisci M (>0) -->");
+            System.out.println("Inserisci M numero di Parser (>0) -->");
             M = s.nextInt();
         } while(N<=0 || M<=0);
 
@@ -22,20 +22,20 @@ public class Esercizio {
         Parser[] p = new Parser[M];
 
         for (int i=0; i<c.length; i++) {
-            c[i] = new Crawler(u, d);
+            c[i] = new Crawler(u, d, i);
             c[i].start();
         }
 
         for (int i=0; i<p.length; i++) {
-            p[i] = new Parser(u, d);
+            p[i] = new Parser(u, d, i);
             p[i].start();
         }
 
         for(int i=1; i<=60; i++) {
             Thread.sleep(1000);
             System.out.print("Secondo " + i + " --> ");
-            System.out.print("Sono stati effettuati " + u.numberOfDownloads() + " download ");
-            System.out.print("e " + d.numberOfAnalyzedPages() + " parsing.");
+            System.out.print("Sono stati effettuati " + Crawler.downloads + " download ");
+            System.out.print("e " + Parser.analyzedPages + " parsing.");
             System.out.println();
         }
 

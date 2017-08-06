@@ -3,10 +3,7 @@ import java.util.concurrent.Semaphore;
 
 public class DocStore {
 
-    private Semaphore sem = new Semaphore(1, true);
-
-    // Numero di pagine analizzate dai Parser
-    private int analyzedPages;
+    private Semaphore sem = new Semaphore(0, true);
 
     // Pagine html di cui effettuare il parsing
     private ArrayList<String> htmlPages = new ArrayList<>();
@@ -21,14 +18,6 @@ public class DocStore {
     public void addPage(String page) {
         htmlPages.add(page);
         sem.release();
-    }
-
-    public void increaseAnalyzedPages() {
-        analyzedPages++;
-    }
-
-    public int numberOfAnalyzedPages() {
-        return analyzedPages;
     }
 
 }

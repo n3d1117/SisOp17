@@ -1,11 +1,20 @@
+import java.util.concurrent.Semaphore;
+
 public class Crawler extends Thread {
 
     private UrlStore u;
     private DocStore d;
 
-    public Crawler(UrlStore u, DocStore d) {
+    // Numero di download effettuati dai Crawler
+    static int downloads = 0;
+    static Semaphore mutex = new Semaphore(1);
+
+    private int id = 0;
+
+    public Crawler(UrlStore u, DocStore d, int id) {
         this.u = u;
         this.d = d;
+        this.id = id;
     }
 
     @Override
@@ -13,10 +22,13 @@ public class Crawler extends Thread {
         try {
             while(true) {
                 String url = u.getUrl(); // Prelevo URL
-                Thread.sleep(1000); // Simulo download pagina HTML
-                String html = "html_from_url"; // Pagina HTML scaricata
+                Thread.sleep(600); // Simulo download pagina HTML
+                String html = "html_from_" + url; // Pagina HTML scaricata
                 d.addPage(html); // Salvo pagina in DocStore
-                u.increaseDownloads(); // Incrementa numero download
+
+                mutex.acquire();
+                downloads++;
+                mutex.release();
             }
         } catch(InterruptedException e) {
             System.out.println(e.getMessage());
