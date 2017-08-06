@@ -8,10 +8,10 @@ public class Esercizio {
         // Prendo N e M da input
         Scanner s = new Scanner(System.in);
         do {
-            System.out.println("Inserisci N numero di Crawler (>0) -->");
+            System.out.print("Inserisci N numero di Crawler (>0) --> ");
             N = s.nextInt();
 
-            System.out.println("Inserisci M numero di Parser (>0) -->");
+            System.out.print("Inserisci M numero di Parser (>0) --> ");
             M = s.nextInt();
         } while(N<=0 || M<=0);
 

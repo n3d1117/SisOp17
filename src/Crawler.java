@@ -22,7 +22,7 @@ public class Crawler extends Thread {
         try {
             while(true) {
                 String url = u.getUrl(); // Prelevo URL
-                Thread.sleep(600); // Simulo download pagina HTML
+                Thread.sleep(550); // Simulo download pagina HTML
                 String html = "html_from_" + url; // Pagina HTML scaricata
                 d.addPage(html); // Salvo pagina in DocStore
 
@@ -31,7 +31,6 @@ public class Crawler extends Thread {
                 mutex.release();
             }
         } catch(InterruptedException e) {
-            System.out.println(e.getMessage());
         }
     }
 

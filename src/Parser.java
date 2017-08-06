@@ -22,7 +22,7 @@ public class Parser extends Thread {
         try {
             while(true) {
                 String page = d.getPage(); // Prelevo pagina HTML
-                Thread.sleep(400); // Simulo parsing pagina HTML
+                Thread.sleep(450); // Simulo parsing pagina HTML
                 int rand = (int)(Math.random()*11);
                 String[] links = new String[rand]; // Insieme dei link della pagina prelevata
                 for (int i=0; i<links.length; i++) {
@@ -35,7 +35,6 @@ public class Parser extends Thread {
                 mutex.release();
             }
         } catch(InterruptedException e) {
-            System.out.println(e.getMessage());
         }
     }
 }
