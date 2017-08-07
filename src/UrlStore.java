@@ -3,10 +3,13 @@ import java.util.concurrent.Semaphore;
 
 public class UrlStore {
 
-    private Semaphore sem = new Semaphore(1, true);
+    // Semaforo utilizzato per essere sicuri che getUrl() aspetti finchè l'array urls è vuoto
+    private Semaphore s = new Semaphore(1, true);
+
+    // Semaforo utilizzato per mutua esclusione tra thread
     private Semaphore mutex = new Semaphore(1);
 
-    // Contiene le url che devono essere analizzate
+    // Array di url che devono essere analizzati
     private ArrayList<String> urls = new ArrayList<>();
 
     public UrlStore(String initial) {
@@ -14,7 +17,7 @@ public class UrlStore {
     }
 
     public String getUrl() throws InterruptedException {
-        sem.acquire();
+        s.acquire();
         mutex.acquire();
         String url = urls.get(0);
         urls.remove(0);
@@ -26,7 +29,7 @@ public class UrlStore {
         mutex.acquire();
         urls.add(url);
         mutex.release();
-        sem.release();
+        s.release();
     }
 
 }

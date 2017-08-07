@@ -22,12 +22,12 @@ public class Esercizio {
         Parser[] p = new Parser[M];
 
         for (int i=0; i<c.length; i++) {
-            c[i] = new Crawler(u, d, i);
+            c[i] = new Crawler(u, d);
             c[i].start();
         }
 
         for (int i=0; i<p.length; i++) {
-            p[i] = new Parser(u, d, i);
+            p[i] = new Parser(u, d);
             p[i].start();
         }
 

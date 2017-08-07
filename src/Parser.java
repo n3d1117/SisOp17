@@ -7,14 +7,13 @@ public class Parser extends Thread {
 
     // Numero di pagine analizzate dai Parser
     static int analyzedPages = 0;
-    static Semaphore mutex = new Semaphore(1);
 
-    private int id = 0;
+    // Semaforo utilizzato per mutua esclusione tra thread durante l'incremento di analyzedPages
+    private Semaphore mutex = new Semaphore(1);
 
-    public Parser(UrlStore u, DocStore d, int id) {
+    public Parser(UrlStore u, DocStore d) {
         this.u = u;
         this.d = d;
-        this.id = id;
     }
 
     @Override
@@ -24,9 +23,9 @@ public class Parser extends Thread {
                 String page = d.getPage(); // Prelevo pagina HTML
                 Thread.sleep(450); // Simulo parsing pagina HTML
                 int rand = (int)(Math.random()*11);
-                String[] links = new String[rand]; // Insieme dei link della pagina prelevata
+                String[] links = new String[rand]; // Genero insieme dei link della pagina prelevata
                 for (int i=0; i<links.length; i++) {
-                    links[i] = "http://website" + i + ".com";
+                    links[i] = "http://website" + i + page + ".com";
                     u.addUrl(links[i]); // Aggiungo link in UrlStore
                 }
 
@@ -35,6 +34,7 @@ public class Parser extends Thread {
                 mutex.release();
             }
         } catch(InterruptedException e) {
+            // ...
         }
     }
 }

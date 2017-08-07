@@ -7,14 +7,13 @@ public class Crawler extends Thread {
 
     // Numero di download effettuati dai Crawler
     static int downloads = 0;
-    static Semaphore mutex = new Semaphore(1);
 
-    private int id = 0;
+    // Semaforo utilizzato per mutua esclusione tra thread durante l'incremento di downloads
+    private Semaphore mutex = new Semaphore(1);
 
-    public Crawler(UrlStore u, DocStore d, int id) {
+    public Crawler(UrlStore u, DocStore d) {
         this.u = u;
         this.d = d;
-        this.id = id;
     }
 
     @Override
@@ -23,7 +22,7 @@ public class Crawler extends Thread {
             while(true) {
                 String url = u.getUrl(); // Prelevo URL
                 Thread.sleep(550); // Simulo download pagina HTML
-                String html = "html_from_" + url; // Pagina HTML scaricata
+                String html = "html_from_" + url; // Genero pagina HTML scaricata
                 d.addPage(html); // Salvo pagina in DocStore
 
                 mutex.acquire();
@@ -31,6 +30,7 @@ public class Crawler extends Thread {
                 mutex.release();
             }
         } catch(InterruptedException e) {
+            // ...
         }
     }
 

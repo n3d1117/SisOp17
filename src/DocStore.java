@@ -3,14 +3,17 @@ import java.util.concurrent.Semaphore;
 
 public class DocStore {
 
-    private Semaphore sem = new Semaphore(0, true);
+    // Semaforo utilizzato per essere sicuri che getPage() aspetti finchè l'array htmlPages è vuoto
+    private Semaphore s = new Semaphore(0, true);
+
+    // Semaforo utilizzato per mutua esclusione tra thread
     private Semaphore mutex = new Semaphore(1);
 
-    // Pagine html di cui effettuare il parsing
+    // Array di pagine html di cui effettuare il parsing
     private ArrayList<String> htmlPages = new ArrayList<>();
 
     public String getPage() throws InterruptedException {
-        sem.acquire();
+        s.acquire();
         mutex.acquire();
         String page = htmlPages.get(0);
         htmlPages.remove(0);
@@ -22,7 +25,7 @@ public class DocStore {
         mutex.acquire();
         htmlPages.add(page);
         mutex.release();
-        sem.release();
+        s.release();
     }
 
 }
